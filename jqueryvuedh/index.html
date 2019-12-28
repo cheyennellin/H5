@@ -1,0 +1,482 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+		<title>jquery仿腾讯云下拉导航</title>
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/imagePreview.min.js" type="text/javascript"></script>
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <style type="text/css">
+        #imgs img {
+	width: 24%;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="css/style1.css" type="text/css" />
+
+
+
+<script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>	
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+
+	$(".side ul li").hover(function(){
+
+		$(this).find(".sidebox").stop().animate({"width":"124px"},200).css({"opacity":"1","filter":"Alpha(opacity=100)","background":"#ae1c1c"})	
+
+	},function(){
+
+		$(this).find(".sidebox").stop().animate({"width":"54px"},200).css({"opacity":"0.8","filter":"Alpha(opacity=80)","background":"#000"})	
+
+	});
+
+	
+
+});
+
+
+
+//回到顶部
+
+function goTop(){
+
+	$('html,body').animate({'scrollTop':0},600);
+
+}
+
+</script>
+
+	</head>
+	<body>
+		<div class="head-v3" id="index">
+			<div class="navigation-up">
+				<div class="navigation-inner">
+					<div class="navigation-v3">
+						<ul>
+							<ul>
+								<!-- 默认被选中项 -->
+								<li :class="i.id == 1 ? 'nav-up-selected-inpage' : ''" v-for="i in nevigatelist" :_t_nav="i.nav">
+									<h2>
+										<a href="#">{{i.label}}</a>
+									</h2>
+								</li>
+							</ul>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="navigation-down">
+				<div v-for="i in navdetails" :id="i.id" :class="i.id == 'product' ? ['nav-down-menu','menu-1'] : ['nav-down-menu','menu-3','menu-1']" style="display: none;" :_t_nav="i.id">
+					<div class="navigation-down-inner">
+						<dl v-for="item in i.childrenlist" :style="item.id == '1' ? {'margin-left': i.leftlength}:''">
+							<dt v-if="item.label !=''">{{item.label}}</dt>
+							<dd v-for="y in item.hreflist">
+								<a class="link" href="#">{{y.label}}</a>
+							</dd>
+						</dl>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="https://www.jq22.com/jquery/vue.min.js"></script>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				var qcloud = {};
+				$('[_t_nav]').hover(function() {
+					var _nav = $(this).attr('_t_nav');
+					clearTimeout(qcloud[_nav + '_timer']);
+					qcloud[_nav + '_timer'] = setTimeout(function() {
+						$('[_t_nav]').each(function() {
+							$(this)[_nav == $(this).attr('_t_nav') ? 'addClass' : 'removeClass']('nav-up-selected');
+						});
+						$('#' + _nav).stop(true, true).slideDown(200);
+					}, 150);
+				}, function() {
+					var _nav = $(this).attr('_t_nav');
+					clearTimeout(qcloud[_nav + '_timer']);
+					qcloud[_nav + '_timer'] = setTimeout(function() {
+						$('[_t_nav]').removeClass('nav-up-selected');
+						$('#' + _nav).stop(true, true).slideUp(200);
+					}, 150);
+				});
+			});
+
+			new Vue({
+				el: "#index",
+				data: {
+					/* 导航标题 */
+					nevigatelist: [{
+						id: '1',
+						nav: 'home',
+						label: '首页',
+					}, {
+						id: '2',
+						nav: 'product',
+						label: '云产品',
+					}, {
+						id: '3',
+						nav: 'wechat',
+						label: '微信建站',
+					}, {
+						id: '4',
+						nav: 'solution',
+						label: '行业解决方案',
+					}, {
+						id: '5',
+						nav: 'cooperate',
+						label: '合作伙伴',
+					}, {
+						id: '6',
+						nav: 'support',
+						label: '帮助与支持',
+					}, ],
+					/* 导航内明细列表 */
+					navdetails: [{
+							id: 'product',
+							/* 明细列表左移距离 */
+							leftlength : '100px',
+							/* 明细列表标题下内容 */
+							childrenlist: [{
+								id: '1',
+								/* 列表标题 */
+								label: '计算机与网络',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '云服务器',
+									href: '#',
+								}, {
+									label: '弹性Web引擎',
+									href: '#',
+								}, {
+									label: '负载均衡',
+									href: '#',
+								}, ]
+							}, {
+								id: '2',
+								/* 列表标题 */
+								label: '存储与CDN',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '云数据库',
+									href: '#',
+								}, {
+									label: 'NoSQL高速存储',
+									href: '#',
+								}, {
+									label: '对象存储服务(beta)',
+									href: '#',
+								}, {
+									label: 'CDN',
+									href: '#',
+								}, ]
+							}, {
+								id: '3',
+								/* 列表标题 */
+								label: '监控与安全',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '云监控',
+									href: '#',
+								}, {
+									label: '云安全',
+									href: '#',
+								}, {
+									label: '云拨测',
+									href: '#',
+								}, ]
+							}, {
+								id: '4',
+								/* 列表标题 */
+								label: '数据分析',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '腾讯云分析',
+									href: '#',
+								}, {
+									label: '关键因子',
+									href: '#',
+								}, ]
+							}, {
+								id: '5',
+								/* 列表标题 */
+								label: '开发者工具',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '移动加速',
+									href: '#',
+								}, {
+									label: '应用加固',
+									href: '#',
+								}, {
+									label: '信鸽推送',
+									href: '#',
+								}, ]
+							}, {
+								id: '6',
+								/* 列表标题 */
+								label: '开发者服务',
+								/* 标题下内容列表 */
+								hreflist: [{
+									label: '安全认证服务',
+									href: '#',
+								}, {
+									label: '域名备案',
+									href: '#',
+								}, ]
+							}, ]
+
+						},{
+							id: 'solution',
+							leftlength : '380px',
+							childrenlist: [{
+									id: '1',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '微信',
+										href: '#',
+									}, ]
+								},{
+									id: '2',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '游戏',
+										href: '#',
+									}, ]
+								},{
+									id: '3',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '移动应用',
+										href: '#',
+									}, ]
+								},
+							]
+						},{
+							id:'support',
+							leftlength : '610px',
+							childrenlist : [
+								{
+									id: '1',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '资料库',
+										href: '#',
+									}, ]
+								},{
+									id: '2',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '论坛',
+										href: '#',
+									}, ]
+								},{
+									id: '3',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '亿元支持',
+										href: '#',
+									}, ]
+								},
+							]
+						},{
+							id:'cooperate',
+							leftlength : '480px',
+							childrenlist:[
+								{
+									id: '1',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '代理商',
+										href: '#',
+									}, ]
+								},{
+									id: '2',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '微信服务商',
+										href: '#',
+									}, ]
+								},{
+									id: '3',
+									/* 列表标题 */
+									label: '',
+									/* 标题下内容列表 */
+									hreflist: [{
+										label: '创投机构',
+										href: '#',
+									}, ]
+								},
+							],
+						}
+					],
+				},
+				mounted: function() {
+
+				},
+				methods: {
+
+				}
+			})
+		</script>
+
+
+<div id="wrapper">
+	<div class="overlay"></div>
+
+	<!-- Sidebar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+		<ul class="nav sidebar-nav">
+			<li class="sidebar-brand">
+				<a href="#">
+				   Bootstrap 3
+				</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-file-o"></i> Second page</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
+			</li>
+			<li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>
+			  <ul class="dropdown-menu" role="menu">
+				<li class="dropdown-header">Dropdown heading</li>
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Something else here</a></li>
+				<li><a href="#">Separated link</a></li>
+				<li><a href="#">One more separated link</a></li>
+			  </ul>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-twitter"></i> Last page</a>
+			</li>
+		</ul>
+	</nav>
+	<!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+	  <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+		<span class="hamb-top"></span>
+		<span class="hamb-middle"></span>
+		<span class="hamb-bottom"></span>
+	  </button>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+<div id="imgs" style="height:300px;">
+        <img src="img/t1.png">
+        <img src="img/t2.png">
+        <img src="img/t3.png">
+        <img src="img/t4.png">
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="https://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	  var trigger = $('.hamburger'),
+		  overlay = $('.overlay'),
+		 isClosed = false;
+
+		trigger.click(function () {
+		  hamburger_cross();      
+		});
+
+		function hamburger_cross() {
+
+		  if (isClosed == true) {          
+			overlay.hide();
+			trigger.removeClass('is-open');
+			trigger.addClass('is-closed');
+			isClosed = false;
+		  } else {   
+			overlay.show();
+			trigger.removeClass('is-closed');
+			trigger.addClass('is-open');
+			isClosed = true;
+		  }
+	  }
+	  
+	  $('[data-toggle="offcanvas"]').click(function () {
+			$('#wrapper').toggleClass('toggled');
+	  });  
+	});
+</script>
+
+<div style="height:1000px;"></div>
+
+
+
+<div class="side">
+
+	<ul>
+
+		<li><a href="#"><div class="sidebox"><img src="img/side_icon01.png">客服中心</div></a></li>
+
+		<li><a href="#"><div class="sidebox"><img src="img/side_icon02.png">客户案例</div></a></li>
+
+		<li><a href="javascript:void(0);" ><div class="sidebox"><img src="img/side_icon04.png">QQ客服</div></a></li>
+
+		<li><a href="javascript:void(0);" ><div class="sidebox"><img src="img/side_icon03.png">新浪微博</div></a></li>
+
+		<li style="border:none;"><a href="javascript:goTop();" class="sidetop"><img src="img/side_icon05.png"></a></li>
+
+	</ul>
+
+</div>
+
+
+	</body>
+
+</html>
+<script type="text/javascript">
+    ImagePreview.init({id:"imgs"});//传参模式一：所有img的父级元素id（不支持跨级，跨级请用第二种）
+//    ImagePreview.init({id:$("#imgs img")});传参模式二：用jq选择到要初始化的img元素也可以
+</script>
